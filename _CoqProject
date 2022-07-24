@@ -6,3 +6,4 @@ theories/semigroup.v
 theories/monoid.v
 theories/group.v
 theories/ring.v
+theories/field.v
