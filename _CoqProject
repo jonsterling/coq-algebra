@@ -1,0 +1,5 @@
+-R theories/ algebra
+-arg -w
+-arg all
+theories/preamble.v
+theories/algebra.v
