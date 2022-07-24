@@ -1,7 +1,6 @@
 From algebra Require Import preamble.
 From HB Require Import structures.
 
-
 HB.mixin Record is_semigroup (S : Type) :=
  { add   : S -> S -> S;
    addrA : associative add }.
@@ -13,7 +12,7 @@ HB.mixin Record is_subsemigroup (G : Semigroup.type) (S : G -> Prop) :=
 
 HB.structure Definition Subsemigroup (G : Semigroup.type) := {S of is_subsemigroup G S}.
 
-Section Subgroup.
+Section Subsemigroup.
   Context (G : Semigroup.type) (S : Subsemigroup.type G).
 
   Definition add' : {x : G | S x} -> {x : G | S x} -> {x : G | S x}.
@@ -30,7 +29,7 @@ Section Subgroup.
   Qed.
 
   HB.instance Definition _ := is_semigroup.Build {x : G | S x} add' addrA'.
-End Subgroup.
+End Subsemigroup.
 
 
 HB.mixin Record semigroup_is_monoid M of is_semigroup M :=
