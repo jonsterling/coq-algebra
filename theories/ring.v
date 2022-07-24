@@ -17,6 +17,18 @@ HB.mixin Record is_comm_ring A of Ring A :=
 
 HB.structure Definition CRing := {A of is_comm_ring A &}.
 
+Fact mulr0 {A : CRing.type} : forall x : A, mul x zero = zero.
+Proof.
+  move=> x.
+  suff: add (mul x zero) (mul x zero) = (mul x zero).
+  - move=> Q.
+    suff: add (mul x zero) (opp (mul x zero)) = add (add (mul x zero) (mul x zero)) (opp (mul x zero)).
+    + rewrite -addrA subrr => {2}->.
+      by rewrite addC add0r.
+    + by rewrite Q.
+  - by rewrite -mulC -mulrDl add0r.
+Qed.
+
 
 HB.mixin Record subgroup_is_ideal (A : CRing.type) S of Subgroup A S :=
   { has_mul : forall u v : A, S u -> S v -> S (mul u v) }.
@@ -99,34 +111,3 @@ HB.mixin Record ring_is_nontrivial A of Ring A :=
 
 HB.structure Definition NontrivialRing := {A of ring_is_nontrivial A &}.
 HB.structure Definition NontrivialCRing := {A of CRing A & ring_is_nontrivial A}.
-
-HB.mixin Record nontrivial_cring_is_field A of NontrivialCRing A :=
-  { nonzero_is_unit : forall x : A, ~ (x = zero) -> is_unit x }.
-
-HB.mixin Record nontrivial_cring_is_geometric_field A of NontrivialCRing A :=
-  { zero_or_unit : forall x : A, x = zero \/ is_unit x }.
-
-HB.mixin Record nontrivial_cring_is_residue_field A of NontrivialCRing A :=
-  { non_unit_is_zero : forall x : A, ~ (is_unit x) -> x = zero }.
-
-
-HB.structure Definition Field := {A of nontrivial_cring_is_field A &}.
-(** For instance, the generic local ring is a field in this sense. *)
-
-HB.structure Definition GeometricField := {A of nontrivial_cring_is_geometric_field A &}.
-(** I don't know if the generic local ring is a "geometric field". *)
-
-
-HB.structure Definition ResidueField := {A of nontrivial_cring_is_residue_field A &}.
-(** As an example, real numbers object in Sh(X) for a topological space X is a residue field. *)
-
-HB.builders Context A of nontrivial_cring_is_geometric_field A.
-  Fact non_unit_is_zero : forall x : A, ~ (is_unit x) -> x = zero.
-  Proof. by move=> x hx; case: (zero_or_unit x). Qed.
-
-  Fact nonzero_is_unit : forall x : A, ~ (x = zero) -> is_unit x.
-  Proof. by move=> x hx; by case: (zero_or_unit x). Qed.
-
-  HB.instance Definition _ := nontrivial_cring_is_residue_field.Build A non_unit_is_zero.
-  HB.instance Definition _ := nontrivial_cring_is_field.Build A nonzero_is_unit.
-HB.end.
