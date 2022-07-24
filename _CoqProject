@@ -2,4 +2,7 @@
 -arg -w
 -arg all
 theories/preamble.v
-theories/algebra.v
+theories/semigroup.v
+theories/monoid.v
+theories/group.v
+theories/ring.v
