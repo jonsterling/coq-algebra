@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<link href="coqdocjs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="coqdocjs.js"></script>
+</head>
+
+<body onload="document.getElementById('content').focus()">
+  <div id="header">
+    <span class="left">
+      <span class="modulename"> <script> document.write(document.title) </script> </span>
+    </span>
+
+    <span class="button" id="toggle-proofs"></span>
+
+    <span class="right">
+      <a href="../">Project Page</a>
+      <a href="./indexpage.html"> Index </a>
+      <a href="./toc.html"> Table of Contents </a>
+    </span>
+</div>
+    <div id="content" tabindex="-1" onblur="document.getElementById('content').focus()">
+    <div id="main">
+<h1 class="libtitle">algebra.monoid</h1>
+
+<div class="code">
+<span class="id" title="keyword">From</span> <span class="id" title="var">algebra</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="algebra.preamble.html#"><span class="id" title="library">preamble</span></a> <a class="idref" href="algebra.semigroup.html#"><span class="id" title="library">semigroup</span></a>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">HB</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">structures</span>.<br/>
+
+<br/>
+<span class="id" title="var">HB.mixin</span> <span class="id" title="keyword">Record</span> <span class="id" title="var">semigroup_is_monoid</span> <a id="M:1" class="idref" href="#M:1"><span class="id" title="binder">M</span></a> <span class="id" title="keyword">of</span> <a class="idref" href="algebra.semigroup.html#is_semigroup"><span class="id" title="abbreviation">is_semigroup</span></a> <a class="idref" href="algebra.monoid.html#M:1"><span class="id" title="variable">M</span></a> :=<br/>
+&nbsp;&nbsp;{ <a id="zero:2" class="idref" href="#zero:2"><span class="id" title="binder">zero</span></a>  : <a class="idref" href="algebra.monoid.html#M:1"><span class="id" title="variable">M</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a id="add0r:3" class="idref" href="#add0r:3"><span class="id" title="binder">add0r</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#left_id"><span class="id" title="definition">left_id</span></a> <a class="idref" href="algebra.monoid.html#zero:2"><span class="id" title="variable">zero</span></a> <a class="idref" href="algebra.semigroup.html#add"><span class="id" title="definition">add</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a id="addr0:4" class="idref" href="#addr0:4"><span class="id" title="binder">addr0</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#right_id"><span class="id" title="definition">right_id</span></a> <a class="idref" href="algebra.monoid.html#zero:2"><span class="id" title="variable">zero</span></a> <a class="idref" href="algebra.semigroup.html#add"><span class="id" title="definition">add</span></a> }.<br/>
+
+<br/>
+<span class="id" title="var">HB.factory</span> <span class="id" title="keyword">Record</span> <span class="id" title="var">is_monoid</span> <a id="M:6" class="idref" href="#M:6"><span class="id" title="binder">M</span></a> :=<br/>
+&nbsp;&nbsp;{ <a id="zero:7" class="idref" href="#zero:7"><span class="id" title="binder">zero</span></a>  : <a class="idref" href="algebra.monoid.html#M:6"><span class="id" title="variable">M</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a id="add:8" class="idref" href="#add:8"><span class="id" title="binder">add</span></a>   : <a class="idref" href="algebra.monoid.html#M:6"><span class="id" title="variable">M</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="algebra.monoid.html#M:6"><span class="id" title="variable">M</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="algebra.monoid.html#M:6"><span class="id" title="variable">M</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a id="addrA:9" class="idref" href="#addrA:9"><span class="id" title="binder">addrA</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#associative"><span class="id" title="definition">associative</span></a> <a class="idref" href="algebra.monoid.html#add:8"><span class="id" title="variable">add</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a id="add0r:10" class="idref" href="#add0r:10"><span class="id" title="binder">add0r</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#left_id"><span class="id" title="definition">left_id</span></a> <a class="idref" href="algebra.monoid.html#zero:7"><span class="id" title="variable">zero</span></a> <a class="idref" href="algebra.monoid.html#add:8"><span class="id" title="variable">add</span></a>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a id="addr0:11" class="idref" href="#addr0:11"><span class="id" title="binder">addr0</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#right_id"><span class="id" title="definition">right_id</span></a> <a class="idref" href="algebra.monoid.html#zero:7"><span class="id" title="variable">zero</span></a> <a class="idref" href="algebra.monoid.html#add:8"><span class="id" title="variable">add</span></a> }.<br/>
+
+<br/>
+<span class="id" title="var">HB.builders</span> <span class="id" title="keyword">Context</span> (<a id="M:13" class="idref" href="#M:13"><span class="id" title="binder">M</span></a> : <span class="id" title="keyword">Type</span>) <span class="id" title="keyword">of</span> <a class="idref" href="algebra.monoid.html#is_monoid"><span class="id" title="abbreviation">is_monoid</span></a> <a class="idref" href="algebra.monoid.html#M:13"><span class="id" title="variable">M</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">HB.instance</span> <span class="id" title="keyword">Definition</span> <span class="id" title="var">_</span> := <a class="idref" href="algebra.semigroup.html#is_semigroup.Build"><span class="id" title="abbreviation">is_semigroup.Build</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.Builders_1.M"><span class="id" title="variable">M</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.add"><span class="id" title="abbreviation">add</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.addrA"><span class="id" title="abbreviation">addrA</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">HB.instance</span> <span class="id" title="keyword">Definition</span> <span class="id" title="var">_</span> := <a class="idref" href="algebra.monoid.html#semigroup_is_monoid.Build"><span class="id" title="abbreviation">semigroup_is_monoid.Build</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.Builders_1.M"><span class="id" title="variable">M</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.zero"><span class="id" title="abbreviation">zero</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.add0r"><span class="id" title="abbreviation">add0r</span></a> <a class="idref" href="algebra.monoid.html#Builders_1.addr0"><span class="id" title="abbreviation">addr0</span></a>.<br/>
+<span class="id" title="var">HB.end</span>.<br/>
+
+<br/>
+<span class="id" title="var">HB.structure</span> <span class="id" title="keyword">Definition</span> <span class="id" title="var">Monoid</span> := <span class="id" title="notation">{</span> <a id="M:15" class="idref" href="#M:15"><span class="id" title="binder">M</span></a> <span class="id" title="notation">of</span> <a class="idref" href="algebra.monoid.html#is_monoid"><span class="id" title="abbreviation">is_monoid</span></a> <a class="idref" href="algebra.monoid.html#M:15"><span class="id" title="variable">M</span></a> <span class="id" title="notation">}</span>.<br/>
+
+<br/>
+<span class="id" title="var">HB.mixin</span> <span class="id" title="keyword">Record</span> <span class="id" title="var">subsemigroup_is_submonoid</span> (<a id="M:18" class="idref" href="#M:18"><span class="id" title="binder">M</span></a> : <a class="idref" href="algebra.monoid.html#type"><span class="id" title="record">Monoid.type</span></a>) <a id="S:19" class="idref" href="#S:19"><span class="id" title="binder">S</span></a> <span class="id" title="keyword">of</span> <a class="idref" href="algebra.semigroup.html#Subsemigroup"><span class="id" title="abbreviation">Subsemigroup</span></a> <a class="idref" href="algebra.monoid.html#M:18"><span class="id" title="variable">M</span></a> <a class="idref" href="algebra.monoid.html#S:19"><span class="id" title="variable">S</span></a> :=<br/>
+&nbsp;&nbsp;{ <a id="has_zero:20" class="idref" href="#has_zero:20"><span class="id" title="binder">has_zero</span></a> : <a class="idref" href="algebra.monoid.html#S:19"><span class="id" title="variable">S</span></a> <a class="idref" href="algebra.monoid.html#zero"><span class="id" title="definition">zero</span></a> }.<br/>
+
+<br/>
+<span class="id" title="var">HB.structure</span> <span class="id" title="keyword">Definition</span> <span class="id" title="var">Submonoid</span> (<a id="M:23" class="idref" href="#M:23"><span class="id" title="binder">M</span></a> : <a class="idref" href="algebra.monoid.html#type"><span class="id" title="record">Monoid.type</span></a>) := <span class="id" title="notation">{</span><a id="S:24" class="idref" href="#S:24"><span class="id" title="binder">S</span></a> <span class="id" title="notation">of</span> <a class="idref" href="algebra.monoid.html#subsemigroup_is_submonoid"><span class="id" title="abbreviation">subsemigroup_is_submonoid</span></a> <a class="idref" href="algebra.monoid.html#M:23"><span class="id" title="variable">M</span></a> <a class="idref" href="algebra.monoid.html#S:24"><span class="id" title="variable">S</span></a> <span class="id" title="notation">&amp;}</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="Submonoid" class="idref" href="#Submonoid"><span class="id" title="section">Submonoid</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<a id="M:27" class="idref" href="#M:27"><span class="id" title="binder">M</span></a> : <a class="idref" href="algebra.monoid.html#type"><span class="id" title="record">Monoid.type</span></a>) (<a id="S:28" class="idref" href="#S:28"><span class="id" title="binder">S</span></a> : <a class="idref" href="algebra.monoid.html#type"><span class="id" title="record">Submonoid.type</span></a> <a class="idref" href="algebra.monoid.html#M:27"><span class="id" title="variable">M</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="zero'" class="idref" href="#zero'"><span class="id" title="definition">zero'</span></a> : <a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">{</span></a><a id="x:29" class="idref" href="#x:29"><span class="id" title="binder">x</span></a> <a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">:</span></a> <a class="idref" href="algebra.monoid.html#Submonoid.M"><span class="id" title="variable">M</span></a> <a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">|</span></a> <a class="idref" href="algebra.monoid.html#Submonoid.S"><span class="id" title="variable">S</span></a> <a class="idref" href="algebra.monoid.html#x:29"><span class="id" title="variable">x</span></a><a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">}</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">by</span> <span class="id" title="var">esplit</span>; <span class="id" title="tactic">apply</span>: <a class="idref" href="algebra.monoid.html#has_zero"><span class="id" title="definition">has_zero</span></a>. <span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Fact</span> <a id="add0r'" class="idref" href="#add0r'"><span class="id" title="lemma">add0r'</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#left_id"><span class="id" title="definition">left_id</span></a> <a class="idref" href="algebra.monoid.html#zero'"><span class="id" title="definition">zero'</span></a> <a class="idref" href="algebra.semigroup.html#add"><span class="id" title="definition">add</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">move</span>=&gt; <span class="id" title="var">u</span>; <span class="id" title="tactic">apply</span>: <a class="idref" href="algebra.preamble.html#sigE"><span class="id" title="lemma">sigE</span></a>=&gt; //=.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> <span class="id" title="tactic">rewrite</span> <a class="idref" href="algebra.monoid.html#add0r"><span class="id" title="definition">add0r</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Fact</span> <a id="addr0'" class="idref" href="#addr0'"><span class="id" title="lemma">addr0'</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.15.2/stdlib//Coq.ssr.ssrfun.html#right_id"><span class="id" title="definition">right_id</span></a> <a class="idref" href="algebra.monoid.html#zero'"><span class="id" title="definition">zero'</span></a> <a class="idref" href="algebra.semigroup.html#add"><span class="id" title="definition">add</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">move</span>=&gt; <span class="id" title="var">u</span>; <span class="id" title="tactic">apply</span>: <a class="idref" href="algebra.preamble.html#sigE"><span class="id" title="lemma">sigE</span></a>=&gt; //=.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> <span class="id" title="tactic">rewrite</span> <a class="idref" href="algebra.monoid.html#addr0"><span class="id" title="definition">addr0</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="var">HB.instance</span> <span class="id" title="keyword">Definition</span> <span class="id" title="var">_</span> := <a class="idref" href="algebra.monoid.html#Build"><span class="id" title="abbreviation">semigroup_is_monoid.Build</span></a> <a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">{</span></a><a id="x:30" class="idref" href="#x:30"><span class="id" title="binder">x</span></a> <a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">:</span></a> <a class="idref" href="algebra.monoid.html#Submonoid.M"><span class="id" title="variable">M</span></a> <a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">|</span></a> <a class="idref" href="algebra.monoid.html#Submonoid.S"><span class="id" title="variable">S</span></a> <a class="idref" href="algebra.monoid.html#x:30"><span class="id" title="variable">x</span></a><a class="idref" href="algebra.preamble.html#6556914db359db999889decec6a4a562"><span class="id" title="notation">}</span></a> <a class="idref" href="algebra.monoid.html#zero'"><span class="id" title="definition">zero'</span></a> <a class="idref" href="algebra.monoid.html#add0r'"><span class="id" title="lemma">add0r'</span></a> <a class="idref" href="algebra.monoid.html#addr0'"><span class="id" title="lemma">addr0'</span></a>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="algebra.monoid.html#Submonoid"><span class="id" title="section">Submonoid</span></a>.<br/>
+</div>
+</div>
+<div id="footer">
+  Generated by <a href="http://coq.inria.fr/">coqdoc</a> and improved with <a href="https://github.com/tebbi/coqdocjs">CoqdocJS</a>
+</div>
+</div>
+</body>
+
+</html>
