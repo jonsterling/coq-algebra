@@ -1,5 +1,6 @@
 From algebra Require Import preamble semigroup monoid group.
 From HB Require Import structures.
+Require Import Lia.
 
 HB.mixin Record abgroup_is_ring A of AbGroup A :=
   { one : A;
@@ -28,6 +29,10 @@ Proof.
     + by rewrite Q.
   - by rewrite -mulC -mulrDl add0r.
 Qed.
+
+Fact mul0r {A : CRing.type} : forall x : A, mul zero x = zero.
+Proof. by move=> ?; rewrite mulC mulr0. Qed.
+
 
 
 HB.mixin Record subgroup_is_ideal (A : CRing.type) S of Subgroup A S :=
@@ -79,9 +84,8 @@ HB.mixin Record proper_ideal_is_maximal (A : CRing.type) I of ProperIdeal A I :=
 
 HB.structure Definition MaximalIdeal (A : CRing.type) := {I of proper_ideal_is_maximal A I &}.
 
-Section CRing.
+Section Properties.
   Context {A : CRing.type}.
-
   Definition is_inverse_of (u v : A) : Prop :=
     mul u v = one.
 
@@ -104,10 +108,126 @@ Section CRing.
 
   Definition is_zerodivisor (u : A) :=
     exists v : A, ~ (v = zero) /\ mul u v = zero.
-End CRing.
+End Properties.
 
-HB.mixin Record ring_is_nontrivial A of Ring A :=
-  { nontrivial : ~ (zero : A) = one }.
+Section Facts.
+  Context {A : CRing.type}.
 
-HB.structure Definition NontrivialRing := {A of ring_is_nontrivial A &}.
-HB.structure Definition NontrivialCRing := {A of CRing A & ring_is_nontrivial A}.
+  Fixpoint pow (m : nat) (f : A) : A :=
+    match m with
+    | 0 => one
+    | S n => mul f (pow n f)
+    end.
+
+  Lemma sum_pow : forall (m n : nat) (f : A), pow (m + n) f = mul (pow m f) (pow n f).
+  Proof.
+    elim=>//=.
+    - by move=> ??; rewrite mul1r.
+    - move=> m ih n f.
+      by rewrite ih mulrA.
+  Qed.
+
+  Lemma prod_pow : forall (m n : nat) (f : A), pow (m * n) f = pow m (pow n f).
+  Proof.
+    elim=> //=.
+    move=> m ih n f.
+    by rewrite -ih sum_pow.
+  Qed.
+
+  Lemma pow_mul : forall (m : nat) (f g : A), pow m (mul f g) = mul (pow m f) (pow m g).
+  Proof.
+    elim=> //=.
+    - by move=> _ _; rewrite mul1r.
+    - move=> m ih f g.
+      rewrite ih.
+      rewrite -?mulrA.
+      congr (mul f).
+      rewrite [mul (pow m f) (mul g (pow m g))]mulC.
+      rewrite -mulrA.
+      congr (mul g).
+      by rewrite mulC.
+  Qed.
+
+  Lemma pow_one : forall m : nat, pow m (one : A) = one.
+  Proof.
+    elim=> //=.
+    move=> n ih.
+    by rewrite ih mul1r.
+  Qed.
+
+  Fact cancel_add : forall a, injective (add a : A -> A).
+  Proof.
+    move=> a b c h.
+    rewrite (_ : b = add (add a b) (opp a)).
+    - by rewrite [add a b]addC -addrA subrr addr0.
+    - rewrite (_ : c = add (add a c) (opp a)).
+      + by rewrite [add a c]addC -addrA subrr addr0.
+      + by rewrite h.
+  Qed.
+
+  Lemma neg_mul_neg_one : forall a : A, mul (opp a) (opp one) = a.
+  Proof.
+    move=> a.
+    apply: (cancel_add (opp a)).
+    by rewrite addNr -{1}[opp a]mulr1 -mulrDr subrr mulr0.
+  Qed.
+
+  Lemma mul_neg_one : forall a : A, mul a (opp one) = (opp a).
+  Proof.
+    move=> a.
+    apply: (cancel_add a).
+    by rewrite subrr -{1}[a]mulr1 -mulrDr subrr mulr0.
+  Qed.
+
+  Lemma mul_neg_neg : forall a b : A, mul (opp a) (opp b) = mul a b.
+  Proof.
+    move=> a b.
+    rewrite (_ : opp b = mul (opp one) b).
+    - by rewrite -mul_neg_one mulC.
+    - by rewrite mulrA neg_mul_neg_one.
+  Qed.
+End Facts.
+
+Module Rad.
+  Section Rad.
+    Context {A : CRing.type} (I : Ideal.type A).
+
+    Lemma ideal_has_pow (f : A) (hf : I f) : forall n, I (mul f (pow n f)).
+    Proof.
+      elim=> //=.
+      - by rewrite mulr1.
+      - move=> n ih.
+        by apply: has_mul.
+    Qed.
+
+    Definition prop (f : A) : Prop :=
+      exists m : nat, I (pow m f).
+
+    Local Lemma rad_is_ideal : is_ideal A prop.
+    Proof.
+      build.
+      - by exists 1; rewrite //= mul0r; apply: has_zero.
+      - move=> f g [m hf] [n hg].
+        (* TODO: need to use the binomial theorem. *)
+        admit.
+      - move=> f [n hf].
+        exists (n * 2).
+        rewrite prod_pow //= mulr1.
+        rewrite mul_neg_neg pow_mul.
+        by apply: has_mul.
+      - move=> f g [m hf] [n hg].
+        exists (m * n).
+        rewrite pow_mul.
+        apply: has_mul.
+        + rewrite (_ : m * n = n * m); first by lia.
+          rewrite prod_pow.
+          case: n hg=> //=.
+          move=> n hg.
+          by apply: ideal_has_pow.
+        + rewrite prod_pow.
+          case: m hf=> //=.
+          move=> m hf.
+          by apply: ideal_has_pow.
+    Abort.
+  End Rad.
+End Rad.
