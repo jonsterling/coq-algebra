@@ -1,5 +1,6 @@
 From algebra Require Import preamble semigroup monoid.
 From HB Require Import structures.
+From Coq Require Import ZArith Lia.
 
 HB.mixin Record monoid_is_group G of Monoid G :=
  { opp : G -> G;
@@ -24,11 +25,24 @@ HB.end.
 
 HB.structure Definition Group := {G of is_group G}.
 
+
 HB.mixin Record is_abgroup G of Group G :=
   { addC : commutative (add : G -> G -> G) }.
 
 
 HB.structure Definition AbGroup := {G of is_abgroup G &}.
+
+
+Definition Z_is_group : monoid_is_group Z.
+Proof.
+  build.
+  - by apply: Z.opp.
+  - abstract by move=> ?; rewrite /add /zero //=; lia.
+  - abstract by move=> ?; rewrite /add /zero //=; lia.
+Defined.
+
+HB.instance Definition _ := Z_is_group.
+HB.instance Definition _ := is_abgroup.Build Z Z.add_comm.
 
 
 

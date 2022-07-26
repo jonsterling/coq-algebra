@@ -1,5 +1,6 @@
 From algebra Require Import preamble semigroup.
 From HB Require Import structures.
+From Coq Require Import ZArith.
 
 HB.mixin Record semigroup_is_monoid M of is_semigroup M :=
   { zero  : M;
@@ -45,3 +46,5 @@ Section Submonoid.
 
   HB.instance Definition _ := semigroup_is_monoid.Build {x : M | S x} zero' add0r' addr0'.
 End Submonoid.
+
+HB.instance Definition _ := semigroup_is_monoid.Build Z 0%Z  Z.add_0_l Z.add_0_r.

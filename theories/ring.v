@@ -1,5 +1,6 @@
 From algebra Require Import preamble semigroup monoid group.
 From HB Require Import structures.
+From Coq Require Import ZArith.
 
 HB.mixin Record abgroup_is_ring A of AbGroup A :=
   { one : A;
@@ -12,10 +13,27 @@ HB.mixin Record abgroup_is_ring A of AbGroup A :=
 
 HB.structure Definition Ring := {A of abgroup_is_ring A &}.
 
+Definition Z_is_ring : abgroup_is_ring Z.
+Proof.
+  build.
+  - by apply: 1%Z.
+  - by apply: Z.mul.
+  - by apply: Z.mul_assoc.
+  - by apply: Z.mul_1_l.
+  - by apply: Z.mul_1_r.
+  - by apply: Z.mul_add_distr_r.
+  - by apply: Z.mul_add_distr_l.
+Defined.
+
+HB.instance Definition _ := Z_is_ring.
+
+
 HB.mixin Record is_comm_ring A of Ring A :=
   { mulC : commutative (mul : A -> A -> A) }.
 
 HB.structure Definition CRing := {A of is_comm_ring A &}.
+
+HB.instance Definition _ := is_comm_ring.Build Z Z.mul_comm.
 
 
 Section Properties.

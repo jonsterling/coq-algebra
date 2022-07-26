@@ -1,5 +1,6 @@
 From algebra Require Import preamble.
 From HB Require Import structures.
+From Coq Require Import ZArith.
 
 HB.mixin Record is_semigroup (S : Type) :=
  { add   : S -> S -> S;
@@ -30,3 +31,6 @@ Section Subsemigroup.
 
   HB.instance Definition _ := is_semigroup.Build {x : G | S x} add' addrA'.
 End Subsemigroup.
+
+HB.instance Definition _ : is_semigroup Z :=
+  is_semigroup.Build Z Z.add Z.add_assoc.
