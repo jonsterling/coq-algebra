@@ -1,5 +1,6 @@
 From algebra Require Import preamble semigroup monoid group ring.
 From HB Require Import structures.
+From Coq Require Import Lia.
 
 HB.mixin Record subgroup_is_ideal (A : CRing.type) S of Subgroup A S :=
   { has_mul : forall u v : A, S u -> S v -> S (mul u v) }.
@@ -51,7 +52,7 @@ HB.mixin Record proper_ideal_is_maximal (A : CRing.type) I of ProperIdeal A I :=
 HB.structure Definition MaximalIdeal (A : CRing.type) := {I of proper_ideal_is_maximal A I &}.
 
 
-Require Import Lia.
+
 Module Rad.
   Section Rad.
     Context {A : CRing.type} (I : Ideal.type A).
@@ -67,31 +68,41 @@ Module Rad.
     Definition prop (f : A) : Prop :=
       exists m : nat, I (pow m f).
 
-    Local Lemma rad_is_ideal : is_ideal A prop.
+    Lemma rad_has_zero : prop zero.
+    Proof. by exists 1; rewrite //= mul0r; apply: has_zero. Qed.
+
+    Lemma rad_has_add f g : prop f -> prop g -> prop (add f g).
     Proof.
-      build.
-      - by exists 1; rewrite //= mul0r; apply: has_zero.
-      - move=> f g [m hf] [n hg].
-        (* TODO: need to use the binomial theorem. *)
-        admit.
-      - move=> f [n hf].
-        exists (n * 2).
-        rewrite prod_pow //= mulr1.
-        rewrite mul_neg_neg pow_mul.
-        by apply: has_mul.
-      - move=> f g [m hf] [n hg].
-        exists (m * n).
-        rewrite pow_mul.
-        apply: has_mul.
-        + rewrite (_ : m * n = n * m); first by lia.
-          rewrite prod_pow.
-          case: n hg=> //=.
-          move=> n hg.
-          by apply: ideal_has_pow.
-        + rewrite prod_pow.
-          case: m hf=> //=.
-          move=> m hf.
-          by apply: ideal_has_pow.
-    Abort.
+      move=> [m hf] [n hg].
+      (* TODO: need to use the binomial theorem. *)
+      admit.
+    Admitted.
+
+    Lemma rad_has_opp f : prop f -> prop (opp f).
+    Proof.
+      move=> [n hf].
+      exists (n * 2).
+      rewrite prod_pow //= mulr1 mul_neg_neg pow_mul.
+      by apply: has_mul.
+    Qed.
+
+    Lemma rad_has_mul f g : prop f -> prop g -> prop (mul f g).
+    Proof.
+      move=> [m hf] [n hg].
+      exists (m * n).
+      rewrite pow_mul.
+      apply: has_mul.
+      - rewrite (_ : m * n = n * m); first by lia.
+        rewrite prod_pow.
+        case: n hg=> //=.
+        move=> n hg.
+        by apply: ideal_has_pow.
+      - rewrite prod_pow.
+        case: m hf=> //=.
+        move=> m hf.
+        by apply: ideal_has_pow.
+    Qed.
+
+    HB.instance Definition _ := is_ideal.Build A prop rad_has_zero rad_has_add rad_has_opp rad_has_mul.
   End Rad.
 End Rad.
